@@ -45,14 +45,20 @@ echo "<table><br>
 <th>Предыдущее показание</th>
 <th>Дата ввода показания</th>
 </tr>";
-
-while ($row = $stmt->fetch(PDO::FETCH_LAZY)){
+if (($stmt->rowCount())>0){
+    while ($row = $stmt->fetch(PDO::FETCH_LAZY)){
+        echo "<tr>";
+        echo "<td>" . $row['result_type'] . "</td>";
+        echo "<td>" . $row['result_number'] . "</td>";
+        echo "<td>" . $row['result_res'] . "</td>";
+        echo "<td>" . $row['result_date'] . "</td>";
+        echo "</tr>";
+    }
+}
+else {
     echo "<tr>";
-    echo "<td>" . $row['result_type'] . "</td>";
-    echo "<td>" . $row['result_number'] . "</td>";
-    echo "<td>" . $row['result_res'] . "</td>";
-    echo "<td>" . $row['result_date'] . "</td>";
-    echo "</tr>";
+        echo "<td colspan='4'>Данных не обнаружено</td>";
+        echo "</tr>";
 }
 echo "</table>";
 ?>

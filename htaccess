@@ -1,4 +1,3 @@
 
-
 php_value date.timezone "Asia/Yekaterinburg"
-php_flag display_errors On
+php_flag display_errors Off
