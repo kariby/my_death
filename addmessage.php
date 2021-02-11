@@ -68,7 +68,7 @@ if (($stmt->rowCount()) > 0) {
 else {
     $sql = "INSERT INTO result (result_id, result_type, result_number, result_res, result_date) VALUES (?,?,?,?,?)";
     //проверка чтоб все показания были больше 0
-    if (($result_res>0) or (empty($result_number))) {
+    if (($result_res>0) or (!empty($result_number))) {
         $stmt= $conn->prepare($sql);
         $stmt->execute([$result_id, $result_type, $result_number, $result_res, $result_date]);
         echo "<h2><b>Показания внесены успешно, спасибо!</b></h2>";
