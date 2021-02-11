@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="styles.css">
 <style>
 table {
     width: 50%;
@@ -19,7 +20,7 @@ th {
 }
 </style>
 </head>
-<body>
+<body align="center" style="margin-top:30px;">
 
 <?php
 $q = $_GET['q'];
@@ -27,7 +28,7 @@ $servername = "localhost";
 $username = "id15961621_user";
 $password = "(v)hglN9YfsE0&1f";
 $database = "id15961621_bd_test20012021";
-
+if (isset($q)):
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -61,6 +62,12 @@ else {
         echo "</tr>";
 }
 echo "</table>";
+else:
+?>
+<h2 align="center">Не удалось войти в личный кабинет. <br>Повторите попытку авторизации!</h2>
+<form method="post" action="index.php"><input type="submit" value="Войти в личный кабинет" /></form>
+<?php
+endif;    
 ?>
 </body>
 </html>

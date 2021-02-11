@@ -6,9 +6,6 @@
 </head>
 <script>
 var str = "";
-window.onpopstate = function () {
-    alert('zdes'); //не работает
-}
 function showUser(str) {
     if (str == "") {
         document.getElementById("txtHint").innerHTML = "";
@@ -60,6 +57,8 @@ $_monthsList = array(
 "10"=>"октябрь","11"=>"ноябрь","12"=>"декабрь");
 $month = $_monthsList[date("n")];
 ?>
+<?php if ($flag):
+?>
 <h2>Добро пожаловать в личный кабинет!</h2>
 <h2>Внесение показаний прибора учета для субарендаторов <br>за месяц <u><?php echo $month; ?></u></h2>
 <?php
@@ -77,7 +76,7 @@ while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
 <p><b>ИНН: </b><?php echo $info_inn; ?><br></p>
 <p><b>Адрес объекта: </b><?php echo $info_adress; ?><br></p>
 </div>
-<?php if ($flag):
+<?php
 $sql = "SELECT * FROM counters WHERE counter_id = ?";
 $stmt= $conn->prepare($sql);
 $stmt->execute(array($id_user));
@@ -96,7 +95,7 @@ while($row = $stmt->fetch(PDO::FETCH_LAZY)){
 ?>
 </select>
 </form>
-<div id="txtHint"><b>Информация о предыдущих введенных показаниях будет указана тут...</b></div>
+<div id="txtHint"><b>Информация о предыдущих введенных показаниях</b></div>
 <form name="test" method="POST" action="addmessage.php">
 
   <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
@@ -108,6 +107,9 @@ while($row = $stmt->fetch(PDO::FETCH_LAZY)){
   <p><input type="submit" value="Передать">
    <input type="reset" value="Очистить"></p>
  </form>
+ <form method="post" action="index.php">
+    <input type="submit" value="Выход" />
+</form>
  <script>
      document.querySelector("body > form:nth-child(5) > select").addEventListener('input', ()=>{
          document.querySelector("#counter_number").value = event.target.value;
@@ -118,8 +120,8 @@ while($row = $stmt->fetch(PDO::FETCH_LAZY)){
  </script>
 <?php
 else: ?>
-<h2 align="center">Неправильный логин или пароль. Повторите попытку авторизации!</h2>
-<p><input type="submit" onclick="history.back();" value="Войти в личный кабинет"/></p>
+<h2 align="center">Не удалось войти в личный кабинет. <br>Повторите попытку авторизации!</h2>
+<form method="post" action="index.php"><input type="submit" value="Войти в личный кабинет"/></form>
 <?php endif ?>
 </body>
 </html>

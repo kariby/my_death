@@ -19,6 +19,7 @@ catch(PDOException $e) {
     echo "Не удалось подключиться к БД. Попробуйте повторить попытку позднее <br>";
     }
 $result_id = (int)$_POST['id_user'];
+if ($result_id >0):
 //этот код чтобы вернуться назад - ужас
 $sqli = "SELECT * FROM users WHERE user_id = ? LIMIT 1";
 $stmt= $conn->prepare($sqli);
@@ -82,8 +83,17 @@ else {
         echo "<h2><b>Вы не ввели никаких данных! <br>Вернитесь назад и повторите попытку </b></h2>";
     }
 }
+
 ?>
 <form method="post" action="index.php">
     <input type="submit" value="Выход" />
 </form>
+<?php
+else:
+?>
+<h2 align="center">Не удалось войти в личный кабинет. <br>Повторите попытку авторизации!</h2>
+<form method="post" action="index.php"><input type="submit" value="Войти в личный кабинет"/></form>
+<?php
+endif;
+?>
 </body>
