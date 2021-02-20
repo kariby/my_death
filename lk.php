@@ -107,9 +107,9 @@ function showUser(str) {
 <body>
 <?php
 $servername = "localhost";
-$username = "id15961621_user";
-$password = "(v)hglN9YfsE0&1f";
-$database = "id15961621_bd_test20012021";
+$username = "id16171045_user";
+$password = "%L5Ib~rowX|ta_EA";
+$database = "id16171045_test";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
