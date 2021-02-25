@@ -188,7 +188,7 @@ while($row = $stmt->fetch(PDO::FETCH_LAZY)){
  <script>
      document.querySelector("body > .row > .leftcolumn > .card > form:nth-child(2) > select").addEventListener('input', ()=>{
          document.querySelector("#counter_number").value = event.target.value;
-         document.querySelector("#counter_type").value = document.querySelector("body > .row > .leftcolumn .card > form:nth-child(2) > select option:checked").dataset.type;
+         document.querySelector("#counter_type").value = document.querySelector("body > .row > .leftcolumn > .card > form:nth-child(2) > select option:checked").dataset.type;
 
      })
      document.getElementById('counter_number').value = str;
