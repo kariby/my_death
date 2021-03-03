@@ -40,7 +40,7 @@ body {
     background: white;
 }
 
-.leftcolumn {   
+.leftcolumn {
     float: left;
     width: 100%;
 }
@@ -73,7 +73,7 @@ body {
 }
 
 @media screen and (max-width: 800px) {
-    .leftcolumn{   
+    .leftcolumn{
         width: 100%;
         padding: 0;
     }
@@ -103,7 +103,42 @@ function showUser(str) {
         xmlhttp.send();
     }
 }
+function showCounters(counterType) {
+    document.getElementById('all_counters').innerHTML = '<option value="">Выберите номер счетчика:</option><br>';
+    if (counterType == "") {
+        return;
+    } else {
+        if (window.XMLHttpRequest) {
+            // код для IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // код для IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              let selectedCounters = JSON.parse(this.responseText);
+              console.log(selectedCounters);
+              if(selectedCounters.length > 0){
+
+                selectedCounters.forEach((item, i) => {
+                  let node = '<option id="option" value="'+item.counter_number+'" data-type="'+item.counter_type+'">';
+                  node += item.counter_number+'</option>';
+                  document.getElementById('all_counters').innerHTML += node;
+                });
+                document.getElementById('after_checking_type').style.display="block";
+              }
+            }
+        };
+        let userId = document.getElementById('global_user_id').value;
+        xmlhttp.open("GET","load_counters.php?q="+encodeURI(counterType)+"&userId="+userId,true);
+        xmlhttp.send();
+    }
+}
 </script>
+<!-- <option id="option" value="<?php //echo $row['counter_number']?>" data-type="<?php //echo $row['counter_type']; ?>">
+  <?php //echo $row['counter_number'] ?>
+</option> -->
 <body>
 <?php
 $servername = "localhost";
@@ -143,52 +178,61 @@ while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
 <div class="leftcolumn" align="center">
 <div class="card">
 <p><b>Адрес объекта: </b><?php echo $info_adress; ?><br></p>
-<?php
-$sql = "SELECT * FROM counters WHERE counter_id = ?";
-$stmt= $conn->prepare($sql);
-$stmt->execute(array($id_user));
-?>
-<form method="get">
-<select name="users" onchange="showUser(this.value)">
-<option value="">Выберите номер счетчика:</option><br>
-<?php
-while($row = $stmt->fetch(PDO::FETCH_LAZY)){
-    $temp = $row['counter_number'];
-    $type = $row['counter_type'];
-?>
-    <option id="option" value="<?php echo $row['counter_number']?>" data-type="<?= $row['counter_type']; ?>"><?php echo $row['counter_number'] ?></option> </p>
-<?php
-}
-?>
-</select>
-</form>
-<div id="txtHint"><b>Информация о предыдущих введенных показаниях</b></div>
-<div class="testtt">
-<form name="test" method="POST" action="add.php">
 
-  <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
-  <input type="hidden" name="counter_number" value="" id="counter_number">
-  <input type="hidden" name="counter_type" value="<?php echo $type; ?>" id="counter_type">
-  <p>Текущее показание:<br>
-   <input style="margin-top:5px;" name="result_number" type="text">
-  </p>
-  <p><input type="submit" value="Передать">
-   <input type="reset" value="Очистить"></p>
- </form>
- <form method="post" action="index.php">
-    <input type="submit" value="Выход" />
-</form>
+<?php
+$sql = "SELECT DISTINCT result_type FROM result";
+$stmt= $conn->prepare($sql);
+$stmt->execute(array());
+?>
+<p><input type="hidden" id="global_user_id" value="<?= $id_user; ?>">
+  <select name="service_type" onchange="showCounters(this.value)">
+  <option value="" disabled selected>Выберите тип показаний:</option>
+  <?php
+  while($row = $stmt->fetch(PDO::FETCH_LAZY)){
+  ?>
+    <option value="<?= $row['result_type'] ?>">
+      <?= $row['result_type'] ?>
+    </option>
+  <?php
+  }
+  ?>
+</select></p>
+
+<div style="display: none;" id="after_checking_type">
+  <form method="get">
+  <select id="all_counters" name="users" onchange="showUser(this.value)">
+    <option value="">Выберите номер счетчика:</option><br>
+  </select>
+  </form>
+  <div id="txtHint"><b>Информация о предыдущих введенных показаниях</b></div>
+  <div class="testtt">
+  <form name="test" method="POST" action="add.php">
+
+    <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
+    <input type="hidden" name="counter_number" value="" id="counter_number">
+    <input type="hidden" name="counter_type" value="<?php echo $type; ?>" id="counter_type">
+    <p>Текущее показание:<br>
+     <input style="margin-top:5px;" name="result_number" type="text">
+    </p>
+    <p><input type="submit" value="Передать">
+     <input type="reset" value="Очистить"></p>
+   </form>
+   <form method="post" action="index.php">
+      <input type="submit" value="Выход" />
+  </form>
+  </div>
 </div>
 </div>
 </div>
 </div>
 <div class="footer">
   <h3>По любым вопросам работы сайта обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
+  <h3>По вопросам начисления коммунальных услуг обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
 </div>
  <script>
-     document.querySelector("body > .row > .leftcolumn > .card > form:nth-child(2) > select").addEventListener('input', ()=>{
+     document.querySelector("#all_counters").addEventListener('input', ()=>{
          document.querySelector("#counter_number").value = event.target.value;
-         document.querySelector("#counter_type").value = document.querySelector("body > .row > .leftcolumn > .card > form:nth-child(2) > select option:checked").dataset.type;
+         document.querySelector("#counter_type").value = document.querySelector("#all_counters option:checked").dataset.type;
 
      })
      document.getElementById('counter_number').value = str;
@@ -208,6 +252,7 @@ else: ?>
 </div>
 <div class="footer">
   <h3>По любым вопросам работы сайта обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
+  <h3>По вопросам начисления коммунальных услуг обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
 </div>
 <?php endif ?>
 </body>

@@ -90,7 +90,7 @@ body {
   <div class="leftcolumn" align="center">
     <div class="card">
       <form action="lk.php" method="post">
-			<div class="fakeimg"><a href="http://batyr-rb.ru/" target="_blank"><img alt="Байрам" class="img-responsive" src="http://www.batyr-rb.ru/upload/medialibrary/8d2/8d215ee628d5b088725c24b049a8018c.png" width="200"></a></div>
+			<div class="fakeimg"><a href="http://batyr-rb.ru/" target="_blank"><img alt="Байрам" class="img-responsive" src="3.png" width="200"></a></div>
 			<p>Логин:<br>
 			<input name="user_login" style="margin-top:5px;" type="text"></p>
 			<p>Пароль:<br>
@@ -103,6 +103,7 @@ body {
 
 <div class="footer">
   <h3>По любым вопросам работы сайта обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
+  <h3>По вопросам начисления коммунальных услуг обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
 </div>
 
 </body>

@@ -195,6 +195,7 @@ body {
 </div>
 <div class="footer">
   <h3>По любым вопросам работы сайта обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
+  <h3>По вопросам начисления коммунальных услуг обращайтесь на <a href="mailto:l.kabirova@bashpost.ru">почту</a></h3>
 </div><?php
 	endif;    
 	?>
