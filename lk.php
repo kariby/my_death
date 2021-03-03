@@ -167,16 +167,18 @@ while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
   <h2>Внесение показаний приборов учета для субарендаторов</h2>
 </div>
 <?php
-$stmt = $conn->prepare('SELECT info_adress FROM information WHERE info_id = ?');
+$stmt = $conn->prepare('SELECT info_name, info_adress FROM information WHERE info_id = ?');
 $stmt->execute(array($id_user));
 while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
     $flag = true;
+    $info_name = $row['info_name'];
     $info_adress = $row['info_adress'];
 }
 ?>
 <div class="row">
 <div class="leftcolumn" align="center">
 <div class="card">
+<p><b>Контрагент: </b><?php echo $info_name; ?><br></p>
 <p><b>Адрес объекта: </b><?php echo $info_adress; ?><br></p>
 
 <?php
