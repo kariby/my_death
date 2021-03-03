@@ -104,7 +104,7 @@ function showUser(str) {
     }
 }
 function showCounters(counterType) {
-    document.getElementById('all_counters').innerHTML = '<option value="">Выберите номер счетчика:</option><br>';
+    document.getElementById('all_counters').innerHTML = '<option value="" disabled selected>Выберите номер счетчика:</option><br>';
     if (counterType == "") {
         return;
     } else {
@@ -203,7 +203,7 @@ $stmt->execute(array());
 <div style="display: none;" id="after_checking_type">
   <form method="get">
   <select id="all_counters" name="users" onchange="showUser(this.value)">
-    <option value="">Выберите номер счетчика:</option><br>
+    <option value="" disabled selected>Выберите номер счетчика:</option><br>
   </select>
   </form>
   <div id="txtHint"><b>Информация о предыдущих введенных показаниях</b></div>
